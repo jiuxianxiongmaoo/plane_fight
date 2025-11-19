@@ -1,6 +1,7 @@
 ﻿import pygame
 import sys
 import traceback
+from scripts.myplane import MyPlane
 
 pygame.init()
 pygame.mixer.init()
@@ -11,7 +12,7 @@ pygame.display.set_caption("Plane Fight My Version")
 
 background = pygame.image.load("images/background.png").convert()
 
-# load music
+# 载入音乐
 pygame.mixer.music.load("sound/game_music.ogg")
 pygame.mixer.music.set_volume(0.2)
 bullet_sound = pygame.mixer.Sound("sound/bullet.wav")
@@ -40,6 +41,10 @@ me_down_sound.set_volume(0.2)
 
 def main():
     pygame.mixer.music.play(-1)
+
+    # 实例化本机
+    me = MyPlane(bg_size)
+
     clock = pygame.time.Clock()
     running = True
     while running:
@@ -48,7 +53,21 @@ def main():
                 pygame.quit()
                 sys.exit()
 
+        # 获取键盘输入 & 控制本机
+        key_pressed = pygame.key.get_pressed()
+        if key_pressed[pygame.K_w] or key_pressed[pygame.K_UP]:
+            me.moveUp()
+        if key_pressed[pygame.K_s] or key_pressed[pygame.K_DOWN]:
+            me.moveDown()
+        if key_pressed[pygame.K_a] or key_pressed[pygame.K_LEFT]:
+            me.moveLeft()
+        if key_pressed[pygame.K_d] or key_pressed[pygame.K_RIGHT]:
+            me.moveRight()
+
         screen.blit(background, (0, 0))
+        # 渲染本机
+        screen.blit(me.image, me.rect)
+
         pygame.display.flip()
         clock.tick(60)
 

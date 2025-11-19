@@ -8,7 +8,7 @@ class MyPlane(pygame.sprite.Sprite):
         self.image = pygame.image.load("images/me1.png").convert_alpha()
         self.rect = self.image.get_rect()
         self.width, self.height = bg_size[0], bg_size[1]
-        self.rect.left, self.rect.top = (self.width - self.height) // 2, self.height - self.rect.height - 60
+        self.rect.left, self.rect.top = (self.width - self.rect.width) // 2, self.height - self.rect.height - 60
         self.speed = 10
 
     def moveUp(self):
@@ -18,7 +18,7 @@ class MyPlane(pygame.sprite.Sprite):
             self.rect.top = 0
 
     def moveDown(self):
-        if self.rect.bottom < self.height:
+        if self.rect.bottom < self.height - 60:
             self.rect.top += self.speed
         else:
             self.rect.bottom = self.height - 60
@@ -30,7 +30,7 @@ class MyPlane(pygame.sprite.Sprite):
             self.rect.left = 0
 
     def moveRight(self):
-        if self.rect.right:
+        if self.rect.right < self.width:
             self.rect.left += self.speed
         else:
             self.rect.right = self.width
